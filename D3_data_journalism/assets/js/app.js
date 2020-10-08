@@ -24,7 +24,12 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 var stateData = d3.csv("assets/data/data.csv").then(function(stateData){
-    console.log(stateData);
+    stateData.forEach(function(d){
+        d.poverty = +d.poverty;
+        d.healthcare = +d.healthcare;
+        console.log(d);
+    });
+    // console.log(stateData);
 });
 
 var xLinearScale = d3.scaleLinear()
@@ -46,17 +51,20 @@ chartGroup.append("g")
 chartGroup.append("g")
     .call(leftAxis);
 
-var circlesGroup = chartGroup.selectAll("circle")
+
+
+chartGroup.selectAll("circle")
     .data(stateData)
     .enter()
     .append("circle")
-        .attr("cx", d => xLinearScale(d.healthcare))
-        .attr("cy", d => yLinearScale(d.poverty))
-        .attr("r", "12")
-        .attr("fill", "blue")
-        .attr("opacity", .5);
+    .attr("cx", d => xLinearScale(d.poverty))
+    .attr("cy", d => yLinearScale(d.healthcare))
+    .attr("r", "12")
+    .attr("fill", "blue")
+    .attr("opacity", .5);
 
-circlesGroup.append("g");
+// chartGroup.append('text')
+    
 
 }
 
