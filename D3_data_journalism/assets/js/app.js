@@ -1,5 +1,5 @@
 // @TODO: YOUR CODE HERE!
-function makeResponsive() {
+// function makeResponsive() {
 
 var svgWidth = 960;
 var svgHeight = 500;
@@ -27,11 +27,12 @@ var stateData = d3.csv("assets/data/data.csv").then(function(stateData){
     stateData.forEach(function(d){
         d.poverty = +d.poverty;
         d.healthcare = +d.healthcare;
-        console.log(d);
+        // console.log(d);
     });
     // console.log(stateData);
 });
 
+// var 
 var xLinearScale = d3.scaleLinear()
     .domain(d3.extent(stateData, d => d.poverty))
     .range([0, width]);
@@ -44,16 +45,15 @@ var yLinearScale = d3.scaleLinear()
 var bottomAxis = d3.axisBottom(xLinearScale);
 var leftAxis = d3.axisLeft(yLinearScale);
 
-chartGroup.append("g")
+var chartGroup.append("g")
     .attr('transform', `translate(0, ${height})`)
     .call(bottomAxis);
 
-chartGroup.append("g")
+var chartGroup.append("g")
     .call(leftAxis);
 
 
-
-chartGroup.selectAll("circle")
+var chartGroup.selectAll("circle")
     .data(stateData)
     .enter()
     .append("circle")
@@ -61,11 +61,33 @@ chartGroup.selectAll("circle")
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "12")
     .attr("fill", "blue")
-    .attr("opacity", .5);
+    .attr("opacity", ".5");
 
-// chartGroup.append('text')
+var chartGroup.append('text')
+    .data(stateData)
+    .enter()
+    .append("text")
+    .classed('stateText', true)
+    .text(d=>d.abbr)
+    .attr("dx", d => xLinearScale(d.poverty))
+    .attr("dy", d => yLinearScale(d.healthcare));
+
+chartGroup.append('text')
+    .attr("y", 0 - margin.bottom)
+    .attr("x", 0 - (width / 2))
+    .attr("dx", "1em")
+    .classed("axis-text", true)
+    .text("Poverty Rate"); 
+
+chartGroup.append('text')
+    .attr("transform", "rotate(-90)") 
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .classed("axis-text", true)
+    .text("Health Care"); 
     
+// }
 
-}
+// makeResponsive();
 
-makeResponsive();
